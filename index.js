@@ -1,25 +1,20 @@
 module.exports = class EndlessArrayPromise {
-	constructor(callback) {
+	constructor() {
 		this.arrays = [];
 		this.promises = [];
 		
-		this.init(callback);
+		this.init();
 	}
-	init(callback) {
+	init() {
 		const promise = new Promise((resolve, reject) => {
 			this.arrays.push({ resolve, reject });
 		});
 		
 		this.promises.push(promise);
-		
-		if (typeof callback === "function") callback.bind(this)();
-		
-		return promise;
 	}
 	add(value) {
-		this.init(() => {
-			this.arrays[this.arrays.length-2].resolve(value);
-		});
+		this.init();
+		this.arrays[this.arrays.length-2].resolve(value);
 	}
 	end(value) {
 		this.arrays[this.arrays.length-1].resolve(value);
