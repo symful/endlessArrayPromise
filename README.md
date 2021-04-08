@@ -31,7 +31,7 @@ Create endless array
 Parameters:
 - value {Any}
 
-### EndlessArrayPromise [Symbol.asyncIterator]()
+### EndlessArrayPromise\[Symbol.asyncIterator]()
 
 Get iterator object of promises
 
