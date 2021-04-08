@@ -7,24 +7,24 @@ https://github.com/NekoMaru76/endlessArrayPromise
 ## Example
 ```js
 const EndlessArrayPromise = require(`${__dirname}/index.js`);
-const endlessArrayPromise = new EndlessArrayPromise(async function() {
-	for await (let promise of this.get()) {
-		console.log(promise);
-	}
-});
+const endlessArrayPromise = new EndlessArrayPromise();
 
 setInterval(() => {
 	endlessArrayPromise.add(0);
 }, 100);
+
+setTimeout(async () => {
+	for await (let promise of endlessArrayPromise.get()) {
+		console.log(promise);
+	}
+});
 ```
 
 ## Usage and Example
 
-### new EndlessArrayPromise(callback?)
+### new EndlessArrayPromise()
 
-Parameters:
-- callback {Function}
-	Run this function when the class is ready
+Create endless array
 	
 ### EndlessArrayPromise.add(value)
 

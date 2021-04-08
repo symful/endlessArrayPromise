@@ -14,13 +14,14 @@ module.exports = class EndlessArrayPromise {
 	}
 	add(value) {
 		this.init();
-		this.arrays[this.arrays.length-2].resolve(value);
+		
+		return this.end(value);
 	}
 	end(value) {
-		this.arrays[this.arrays.length-1].resolve(value);
+		this.arrays.splice(0, 1)[0].resolve(value);
 	}
 	error(e) {
-		this.arrays[this.arrays.length-1].reject(e);
+		this.arrays.splice(0, 1)[0].reject(e);
 	}
 	get() {
 		return this.promises;
