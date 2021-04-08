@@ -1,8 +1,9 @@
 const EndlessArrayPromise = require(`${__dirname}/index.js`);
 const endlessArrayPromise = new EndlessArrayPromise();
 
+
 setInterval(() => {
-	endlessArrayPromise.add(0);
+  endlessArrayPromise.add(0);
 }, 100);
 
 setTimeout(() => {
@@ -10,7 +11,7 @@ setTimeout(() => {
 }, 1000);
 
 setTimeout(async () => {
-	for await (let promise of endlessArrayPromise) {
-		console.log(promise);
-	}
+  for await (let promise of endlessArrayPromise) {
+    console.log(promise);
+  }
 });
