@@ -6,24 +6,45 @@ module.exports = class EndlessArrayPromise {
 		this.init();
 	}
 	init() {
-		const promise = new Promise((resolve, reject) => {
-			this.arrays.push({ resolve, reject });
-		});
-		
-		this.promises.push(promise);
+		this.promises.push(new Promise((resolve, reject) => {
+			this.arrays.push({
+        resolve, reject
+      });
+		}));
 	}
+  reset() {
+    this.arrays = [];
+    this.promises = [];
+  }
 	add(value) {
 		this.init();
 		
 		return this.end(value);
 	}
 	end(value) {
+    if (!this.arrays.length) throw new Error("Reset the array with `.reset()` first!");
+
 		this.arrays.splice(0, 1)[0].resolve(value);
 	}
-	error(e) {
-		this.arrays.splice(0, 1)[0].reject(e);
+	error(error) {
+    if (!this.arrays.length) throw new Error("Reset the array with `.reset()` first!");
+
+		this.arrays.splice(0, 1)[0].reject(error);
 	}
-	get() {
-		return this.promises;
+  [Symbol.asyncIterator]() {
+		return {
+      next: async () => {
+        try {
+          const promise = this.promises.splice(0, 1)[0];
+
+          return Promise.resolve({
+            value: await promise,
+            done: !promise
+          });
+        } catch(e) {
+          Promise.reject(e);
+        }
+      }
+    }
 	}
 };

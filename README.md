@@ -6,7 +6,7 @@ https://github.com/NekoMaru76/endlessArrayPromise
 
 ## Example
 ```js
-const EndlessArrayPromise = require(`${__dirname}/index.js`);
+const EndlessArrayPromise = require(`endless-array-promise`);
 const endlessArrayPromise = new EndlessArrayPromise();
 
 setInterval(() => {
@@ -14,7 +14,7 @@ setInterval(() => {
 }, 100);
 
 setTimeout(async () => {
-	for await (let promise of endlessArrayPromise.get()) {
+	for await (let promise of endlessArrayPromise) {
 		console.log(promise);
 	}
 });
@@ -30,10 +30,10 @@ Create endless array
 
 Parameters:
 - value {Any}
-	
-### EndlessArrayPromise.get() => EndlessArray {Array<Promise>}
 
-Get endless array of promises
+### EndlessArrayPromise[Symbol.asyncIterator]()
+
+Get iterator object of promises
 
 ### EndlessArrayPromise.end(lastValue)
 
@@ -48,6 +48,10 @@ End the endless array with error
 
 Parameters:
 - error {Error}
+
+### EndlessArrayPromise.reset()
+
+Reset the array
 
 ## Developer
 - Gaia#9524 [Discord]
