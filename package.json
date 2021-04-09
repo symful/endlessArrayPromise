@@ -1,6 +1,6 @@
 {
   "name": "endless-array-promise",
-  "version": "1.0.0-beta4",
+  "version": "1.0.0-beta5",
   "description": "Is to make your code have less callback!",
   "main": "index.js",
   "scripts": {

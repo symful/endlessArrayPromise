@@ -14,8 +14,8 @@ setInterval(() => {
 }, 100);
 
 setTimeout(async () => {
-	for await (let promise of endlessArrayPromise) {
-		console.log(promise);
+	for await (let value of endlessArrayPromise) {
+		console.log(value);
 	}
 });
 ```

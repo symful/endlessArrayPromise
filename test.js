@@ -6,12 +6,18 @@ setInterval(() => {
   endlessArrayPromise.add(0);
 }, 100);
 
-setTimeout(() => {
+/*setTimeout(() => {
   endlessArrayPromise.end(1);
-}, 1000);
+}, 1000);*/
 
 setTimeout(async () => {
-  for await (let promise of endlessArrayPromise) {
-    console.log(promise);
+  for await (const value of endlessArrayPromise) {
+    console.log("hi", value);
+  }
+});
+
+setTimeout(async () => {
+  for await (const value of endlessArrayPromise) {
+    console.log("hello", value);
   }
 });
