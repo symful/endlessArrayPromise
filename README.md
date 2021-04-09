@@ -49,10 +49,6 @@ End the endless array with error
 Parameters:
 - error {Error}
 
-### EndlessArrayPromise.reset()
-
-Reset the array
-
 ## Developer
 - Gaia#9524 [Discord]
 
