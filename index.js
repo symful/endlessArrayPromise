@@ -3,22 +3,6 @@ module.exports = class EndlessArrayPromise {
         this.arrays = [];
         this.promises = [];
         this.index = 0;
-        this.iterator = {
-            next: async () => {
-                if (!this.promises) return Promise.resolve({ done: true, value: null });
-
-                try {
-                    const promise = this.promises[this.index];
-
-                    return Promise.resolve({
-                        value: await promise,
-                        done: !promise
-                    });
-                } catch (e) {
-                    Promise.reject(e);
-                }
-            }
-        }
 
         this.init();
     }
@@ -48,6 +32,24 @@ module.exports = class EndlessArrayPromise {
         this.delete();
     }
     [Symbol.asyncIterator]() {
-        return this.iterator;
+        const { promises } = this;
+
+        return {
+            index: this.index,
+            async next() {
+                if (!promises) return Promise.resolve({ done: true, value: null });
+
+                try {
+                    const promise = promises[this.index++];
+
+                    return Promise.resolve({
+                        value: await promise,
+                        done: !promise
+                    });
+                } catch (e) {
+                    Promise.reject(e);
+                }
+            }
+        }
     }
 };
