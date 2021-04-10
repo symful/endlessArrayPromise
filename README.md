@@ -63,15 +63,17 @@ const Events = require("events"),
 	{ fromCallback } = require(`endless-array-promise`);
 	
 const events = new Events;
-const on = event => const endlessArray = fromCallback(events.on.bind(events), [event]);
+const on = event => fromCallback(events.on.bind(events), [event]);
 
 setInterval(() => {
 	events.emit(`message`, `Hi`);
 }, 100);
 
-for await (const value of on("message")) {
-	console.log(...value);
-}
+setTimeout(async () => {
+  for await (const value of on("message")) {
+	  console.log(...value);
+  }
+});
 ```
 
 ## Developer
