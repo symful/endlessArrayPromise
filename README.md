@@ -49,7 +49,7 @@ End the endless array with error
 Parameters:
 - error {Error}
 
-### EndlessArrayPromise.fromCallback(func, args);
+### EndlessArrayPromise.fromCallback(func, startArgs, endArgs);
 
 Change function that use callback to EndlessArrayPromise
 
