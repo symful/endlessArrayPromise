@@ -26,5 +26,5 @@ setTimeout(() => {
     clearInterval(interval);
     endlessArrayPromise.end(1);
     console.log(`One Received: ${collect[0].length}\nTwo Received: ${collect[1].length}\nSent: ${collect[2].length}`);
-  }, 10000);
+  }, 3000);
 }, 1000);

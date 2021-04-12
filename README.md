@@ -55,7 +55,8 @@ Change function that use callback to EndlessArrayPromise
 
 Parameters:
 - func {Function}
-- args {Array, Default: Blank Array}
+- startArgs {Array, Default: Array}
+- endArgs {Array, Default: Array}
 
 Example:
 ```js
