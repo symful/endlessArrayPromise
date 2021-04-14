@@ -12,7 +12,7 @@ Create endless array
 
 Example:
 ```js
-const EndlessArrayPromise = require(`endless-array-promise`);
+const { EndlessArrayPromise } = require(`endless-array-promise`);
 const endlessArrayPromise = new EndlessArrayPromise();
 
 setInterval(() => {
@@ -49,7 +49,7 @@ End the endless array with error
 Parameters:
 - error {Error}
 
-### EndlessArrayPromise.fromCallback(func, startArgs, endArgs);
+### fromCallback(func, startArgs, endArgs);
 
 Change function that use callback to EndlessArrayPromise
 

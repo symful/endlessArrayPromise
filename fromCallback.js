@@ -1,4 +1,4 @@
-const EndlessArray = require(`${__dirname}/index.js`);
+const EndlessArray = require(`${__dirname}/EndlessArrayPromise.js`);
 
 module.exports = function fromCallback(func, startArgs = [], endArgs = []) {
 	const endlessArray = new EndlessArray;
