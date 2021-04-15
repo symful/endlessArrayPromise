@@ -1,30 +1,35 @@
-const EndlessArrayPromise = require(`${__dirname}/../index.js`);
-const endlessArrayPromise = new EndlessArrayPromise();
-const collect = [[], [], []];
+const { EndlessArrayPromise } = require(`${__dirname}/../index.js`);
+const endlessArray = new EndlessArrayPromise;
+const collect = [[], []];
+const send = [];
+const iterator = [endlessArray[Symbol.asyncIterator](), endlessArray[Symbol.asyncIterator]()];
 
-setTimeout(async () => {
-  for await (const value of endlessArrayPromise) {
-    console.log("One:", value);
-    collect[0].push(value);
+const interval0 = setInterval(async () => {
+  const next = await iterator[0].next();
+  
+  if (next.done) {
+    console.log(`[0] Ended, Received: ${collect[0].length} values`);
+    return clearInterval(interval0);
   }
-});
 
-setTimeout(async () => {
-  for await (const value of endlessArrayPromise) {
-    console.log("Two:", value);
-    collect[1].push(value);
+  collect[0].push(next.value);
+  console.log(`[0] Received: ${next.value}`);
+}, 100);
+
+const interval1 = setInterval(async () => {
+  const next = await iterator[1].next();
+  
+  if (next.done) {
+    console.log(`[1] Ended, Received: ${collect[1].length} values`);
+    return clearInterval(interval1);
   }
-});
 
-setTimeout(() => {
-  const interval = setInterval(() => {
-    endlessArrayPromise.add(Math.random());
-    collect[2].push(0);
-  }, 500);
+  collect[1].push(next.value);
+  console.log(`[1] Received: ${next.value}`);
+}, 300);
 
-  setTimeout(() => {
-    clearInterval(interval);
-    endlessArrayPromise.end(1);
-    console.log(`One Received: ${collect[0].length}\nTwo Received: ${collect[1].length}\nSent: ${collect[2].length}`);
-  }, 3000);
-}, 1000);
+const interval = setInterval(() => {
+  endlessArray.add(Math.random());
+}, 100);
+
+setTimeout(() => clearInterval(interval), 4090);
