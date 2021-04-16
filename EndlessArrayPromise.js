@@ -3,7 +3,6 @@ module.exports = class EndlessArrayPromise {
         this.arrays = [];
         this.promises = [];
         this.index = 0;
-        this.last;
         this.ended = false;
 
         this.init();
@@ -38,18 +37,14 @@ module.exports = class EndlessArrayPromise {
 
         return {
             index: this.index,
-            last: false,
-            reach: [],
             async next() {
                 const { promises, index, ended } = self;
 
                 if (ended && index <= this.index) return Promise.resolve({ value: null, done: true });
 
                 try {
-                    const promise =  promises[this.reach.length >= promises.length && !ended ? this.index : this.index++];
+                    const promise =  promises[this.index >= promises.length && !ended ? this.index : this.index++];
                     const value = await promise;
-
-                    if (promise) this.reach.push(value);
 
                     return Promise.resolve({
                         value: value,
