@@ -13,8 +13,8 @@ const interval0 = setInterval(async () => {
   }
 
   collect[0].push(next.value);
-  console.log(`[0] Received: ${next.value}`);
-}, 100);
+  console.log(`[0] Received: ${next.value} [${iterator[0].index}]`);
+}, 0);
 
 const interval1 = setInterval(async () => {
   const next = await iterator[1].next();
@@ -25,11 +25,18 @@ const interval1 = setInterval(async () => {
   }
 
   collect[1].push(next.value);
-  console.log(`[1] Received: ${next.value}`);
+  console.log(`[1] Received: ${next.value} [${iterator[1].index}]`);
 }, 300);
 
 const interval = setInterval(() => {
-  endlessArray.add(Math.random());
+  const v = Math.random();
+ 
+  endlessArray.add(v);
+  console.log(`[-1] Sent: ${v} [${endlessArray.promises.length-2}]`);
 }, 100);
 
-setTimeout(() => clearInterval(interval), 4090);
+setTimeout(() => {
+    clearInterval(interval);
+    console.log(`[-1] Ended, Sent: ${endlessArray.promises.length} values`);
+    endlessArray.end(1);
+}, 4090);

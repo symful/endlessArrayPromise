@@ -1,3 +1,12 @@
+const wait = callback => new Promise(async(resolve, reject) => {
+    try {
+        if (!await callback()) setTimeout(() => wait(callback).then(resolve).catch(reject));
+        else resolve();
+    } catch(e) {
+        reject(e);
+    }
+});
+
 module.exports = class EndlessArrayPromise {
     constructor() {
         this.arrays = [];
@@ -37,20 +46,22 @@ module.exports = class EndlessArrayPromise {
 
         return {
             index: this.index,
+            before: null,
             async next() {
-                const { promises, index, ended } = self;
-
-                if (ended && index <= this.index) return Promise.resolve({ value: null, done: true });
-
                 try {
-                    const promise =  promises[this.index >= promises.length && !ended ? this.index : this.index++];
-                    const value = await promise;
+                    if (this.before) await this.before;
+                    if (self.ended && self.index <= this.index) return Promise.resolve({ value: null, done: true });
+
+                    await wait(() => !self.ended && self.index > this.index);
+
+                    this.before = self.promises[this.before ? this.index++ : this.index];
+                    const value = await self.promises[this.index];
 
                     return Promise.resolve({
-                        value: value,
-                        done: !promise
+                        value: value || null,
+                        done: false
                     });
-                } catch (e) {
+                } catch(e) {
                     Promise.reject(e);
                 }
             }
