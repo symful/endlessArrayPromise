@@ -3,7 +3,7 @@ const EndlessArray = require(`${__dirname}/EndlessArrayPromise.js`);
 module.exports = function fromCallback(func, startArgs = [], endArgs = []) {
 	const endlessArray = new EndlessArray;
 	
-	func(...startArrgs, (...args) => {
+	func(...startArgs, (...args) => {
 		endlessArray.add(args);
 	}, ...endArgs);
 	
