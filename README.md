@@ -40,14 +40,7 @@ Get iterator object of promises
 End the endless array
 
 Parameters:
-- lastValue {Any}
-
-### EndlessArrayPromise.error(error)
-
-End the endless array with error
-
-Parameters:
-- error {Error}
+- lastValue {Any}
 
 ### fromCallback(func, startArgs, endArgs);
 
@@ -79,6 +72,9 @@ setTimeout(async () => {
 
 ## Developer
 - Gaia#9524 [Discord]
+
+## Changelogs
+Check CHANGELOGS.md in module's folder
 
 ## Buy me a Coffee
 - nekomaru76 [PayPal]

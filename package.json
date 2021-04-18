@@ -1,10 +1,10 @@
 {
   "name": "endless-array-promise",
-  "version": "1.0.1",
+  "version": "2.0.0-beta1",
   "description": "Is to make your code have less callback!",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node test/EndlessArrayPromise.js"
   },
   "author": "nekomaru76",
   "license": "MIT",

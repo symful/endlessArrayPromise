@@ -1,4 +1,4 @@
-const wait = callback => new Promise(async(resolve, reject) => {
+const wait = callback => new Promise(async (resolve, reject) => {
     try {
         if (!await callback()) setTimeout(() => wait(callback).then(resolve).catch(reject));
         else resolve();
@@ -9,36 +9,20 @@ const wait = callback => new Promise(async(resolve, reject) => {
 
 module.exports = class EndlessArrayPromise {
     constructor() {
-        this.arrays = [];
-        this.promises = [];
+        this.values = [];
         this.index = 0;
         this.ended = false;
-
-        this.init();
     }
     delete() {
         this.ended = true;
     }
-    init() {
-        this.promises.push(new Promise((resolve, reject) => {
-            this.arrays.push({
-                resolve,
-                reject
-            });
-        }));
-    }
     add(value) {
-        this.index++;
+        this.values.push(value);
 
-        this.init();
-        this.arrays[this.arrays.length-2].resolve(value);
+        this.index++;
     }
     end(value) {
-        this.arrays[this.arrays.length-1].resolve(value);
-        this.delete();
-    }
-    error(error) {
-        this.arrays[this.arrays.length-1].reject(error);
+        this.values.push(value);
         this.delete();
     }
     [Symbol.asyncIterator]() {
@@ -46,19 +30,15 @@ module.exports = class EndlessArrayPromise {
 
         return {
             index: this.index,
-            before: null,
             async next() {
                 try {
                     if (this.before) await this.before;
-                    if (self.ended && self.index <= this.index) return Promise.resolve({ value: null, done: true });
-
-                    await wait(() => !self.ended && self.index > this.index);
-
-                    this.before = self.promises[this.before ? this.index++ : this.index];
-                    const value = await self.promises[this.index];
+                    if (self.ended && self.values.length <= this.index) return Promise.resolve({ value: null, done: true })
+                    
+                    await wait(() => self.values.length > this.index);
 
                     return Promise.resolve({
-                        value: value || null,
+                        value: self.values[this.index++],
                         done: false
                     });
                 } catch(e) {
